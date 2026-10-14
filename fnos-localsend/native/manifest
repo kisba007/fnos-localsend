@@ -1,0 +1,13 @@
+appname=localsend
+version=2.1.0
+display_name=LocalSend
+desc=LocalSend 局域网文件互传 - 原生直装版（不依赖 Docker）。单个静态二进制常驻运行，系统服务方式安装。手机/电脑安装 LocalSend 客户端后，同局域网即可发现本 NAS 并双向互传文件，无需公网。<br>自带网页管理台：浏览器打开 http://NAS地址:8080 ，可浏览文件、打包发送、接收确认与自动入盒（dropbox）。<br>接收目录为应用共享目录，安装后自动创建并授权，可在飞牛【文件管理器】中浏览与使用；采用组播发现（UDP 53317）。
+platform=x86
+source=thirdparty
+maintainer=localsend
+maintainer_url=https://github.com/alexindigo/localsend-nas
+distributor=Kinyo
+os_min_version=1.1.3100
+service_port=8080
+desktop_uidir=ui
+desktop_applaunchname=localsend.main
