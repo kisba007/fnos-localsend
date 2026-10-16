@@ -1,2 +1,0 @@
-#!/bin/bash
-cd "${TRIM_APPDEST}/docker" && docker compose pull && docker compose up -d
