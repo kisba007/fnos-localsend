@@ -1,0 +1,13 @@
+#!/bin/bash
+
+### 配置变更回调：固定端口 4060，同步桌面 UI 配置端口
+
+PORT=4060
+
+# 更新桌面 UI 配置的端口
+UICFG="${TRIM_APPDEST}/ui/config"
+if [ -f "$UICFG" ]; then
+    sed -i "s/\"port\": \"[0-9]*\"/\"port\": \"${PORT}\"/g" "$UICFG"
+fi
+
+exit 0

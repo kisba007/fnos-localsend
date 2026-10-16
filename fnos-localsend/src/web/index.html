@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f4fbf8">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>LocalSend</title>
+<script>
+// Anti-FOUC: apply the persisted/system theme before first paint.
+// Mirrors initTheme() in app.js — keep both in sync.
+(function(){try{
+  var t=localStorage.getItem("localsend-nas-theme")||"system";
+  var d=t==="dark"||(t==="system"&&window.matchMedia("(prefers-color-scheme: dark)").matches);
+  var r=document.documentElement;
+  if(d){r.classList.add("dark");}
+  r.style.colorScheme=d?"dark":"light";
+  var m=document.querySelector('meta[name="theme-color"]');
+  if(m){m.content=d?"#0e1513":"#f4fbf8";}
+}catch(e){}})();
+</script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <span class="brand">
+    <img src="favicon.png" width="26" height="26" alt="localsend-nas logo">
+    <h1>LocalSend</h1>
+  </span>
+  <nav id="tabs">
+    <button data-tab="files" class="active">文件</button>
+    <button data-tab="devices">设备</button>
+    <button data-tab="transfers">传输<span id="transferBadge"></span></button>
+  </nav>
+  <span class="header-actions">
+    <a class="icon-btn" href="https://github.com/alexindigo/localsend-nas" target="_blank" rel="noopener noreferrer" title="GitHub 仓库" aria-label="GitHub 仓库"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+    <button id="themeToggle" class="icon-btn" title="主题：跟随系统"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></button>
+    <button id="settingsBtn" class="icon-btn" title="设置" aria-label="设置"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
+  </span>
+</header>
+
+<div id="settingsMenu" class="popover" hidden>
+  <label>接收倒计时（秒）
+    <input id="setTimeout" type="number" min="5" max="300" step="1">
+  </label>
+  <label>接收目录（保存收到的文件，绝对路径）
+    <input id="setReceiveDir" type="text" placeholder="留空=使用默认收件目录" spellcheck="false">
+  </label>
+  <label>超时处理（自动入收件盒）
+    <select id="setDropbox"></select>
+  </label>
+  <label class="check"><input id="setNoise" type="checkbox"> 显示 NAS 系统文件（@eaDir、.DS_Store 等）</label>
+  <div class="muted small">更改后自动保存</div>
+</div>
+
+<div id="receiveModal" class="modal" hidden>
+  <div class="modal-card">
+    <h2 id="rmTitle">接收文件</h2>
+    <div id="rmFiles" class="modal-files"></div>
+    <div class="modal-dest"><label>保存到 <select id="rmDest"></select></label></div>
+    <div class="bar"><div id="rmCountdown" class="fill"></div></div>
+    <div id="rmCaption" class="muted small"></div>
+    <div class="actions">
+      <button id="rmDecline" class="secondary">拒绝</button>
+      <button id="rmAccept">接收</button>
+    </div>
+  </div>
+</div>
+
+<main>
+  <section id="tab-files">
+    <div class="toolbar">
+      <label>共享目录 <select id="shareSelect"></select></label>
+      <span id="breadcrumb"></span>
+    </div>
+    <table id="fileList">
+      <thead><tr><th class="check"></th><th>名称</th><th class="num">大小</th><th>修改时间</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <div id="basketBar">
+      <span id="basketInfo">待发清单为空</span>
+      <span class="spacer"></span>
+      <button id="clearBasket" class="secondary">清空</button>
+      <button id="chooseDevice">选择设备 →</button>
+    </div>
+  </section>
+
+  <section id="tab-devices" hidden>
+    <div class="toolbar">
+      <input id="addrInput" type="text" placeholder="按 IP[:端口] 添加设备" spellcheck="false">
+      <button id="addDevice">添加</button>
+      <button id="refreshDevices" class="secondary">刷新</button>
+    </div>
+    <ul id="deviceList" class="cards"></ul>
+  </section>
+
+  <section id="tab-transfers" hidden>
+    <ul id="transferList" class="cards"></ul>
+  </section>
+</main>
+
+<div id="toast" hidden></div>
+<script src="app.js"></script>
+</body>
+</html>

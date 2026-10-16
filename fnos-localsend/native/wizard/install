@@ -1,0 +1,11 @@
+[
+  {
+    "stepTitle": "安装说明",
+    "items": [
+      {
+        "type": "tips",
+        "helpText": "LocalSend 已原生安装（不依赖 Docker），Web 管理端口固定为 4060。浏览器打开 http://NAS地址:4060 即可使用。"
+      }
+    ]
+  }
+]

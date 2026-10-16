@@ -1,0 +1,8 @@
+{
+    "defaults":
+    {
+        "run-as": "package"
+    },
+    "username": "docker-localsend",
+    "groupname": "docker-localsend"
+}

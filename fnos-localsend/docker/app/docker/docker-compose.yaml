@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+  localsend:
+    image: alexindigo/localsend-nas:latest
+    container_name: localsend-nas
+    network_mode: host
+    restart: unless-stopped
+    environment:
+      TZ: "Asia/Shanghai"
+      LOCALSEND_NAS_SHARES: "inbox=/srv/inbox"
+      LOCALSEND_NAS_LISTEN: ":8080"
+      LOCALSEND_NAS_ALIAS: "fnOS-NAS"
+      PUID: "1000"
+      PGID: "1000"
+    volumes:
+      - "localsend-inbox:/srv/inbox"
+      - "localsend-nas-data:/data"
+
+volumes:
+  localsend-inbox:
+    name: localsend-inbox
+  localsend-nas-data:
+    name: localsend-nas-data
