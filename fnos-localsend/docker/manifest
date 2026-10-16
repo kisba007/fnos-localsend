@@ -7,4 +7,5 @@ source=thirdparty
 maintainer=localsend
 maintainer_url=https://github.com/localsend/localsend
 distributor=Kinyo
+distributor_url=https://github.com/kisba007/fnos-localsend
 os_min_version=1.1.3100

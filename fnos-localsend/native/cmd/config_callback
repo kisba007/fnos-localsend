@@ -1,5 +1,21 @@
 #!/bin/bash
 
-### This script is called after the user change environment variables in application setting page.
+### 配置变更回调：用户在应用设置里改端口后保存并更新 UI 配置
+
+PORT="${wizard_web_port:-8080}"
+
+# 校验端口为纯数字
+if ! echo "$PORT" | grep -qE '^[0-9]{1,5}$'; then
+    PORT=8080
+fi
+
+# 保存端口到运行时数据目录
+echo "$PORT" > "${TRIM_PKGVAR}/web_port"
+
+# 更新桌面 UI 配置的端口
+UICFG="${TRIM_APPDEST}/ui/config"
+if [ -f "$UICFG" ]; then
+    sed -i "s/\"port\": \"[0-9]*\"/\"port\": \"${PORT}\"/g" "$UICFG"
+fi
 
 exit 0

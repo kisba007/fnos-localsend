@@ -35,8 +35,17 @@ start_process() {
     SHARE_DIR=$(get_share_dir)
     mkdir -p "$SHARE_DIR"
 
-    log_msg "Starting process, share=$SHARE_DIR ..."
-    CMD="exec ${BIN} -listen :8080 -data-dir \"${DATA_DIR}\" -share \"inbox=${SHARE_DIR}\" -alias \"fnOS-NAS\""
+    # 读取用户配置的 Web 端口（安装/配置向导写入），默认 8080
+    local WEB_PORT
+    WEB_PORT=$(cat "${TRIM_PKGVAR}/web_port" 2>/dev/null)
+    if ! echo "$WEB_PORT" | grep -qE '^[0-9]{1,5}$'; then
+        WEB_PORT=8080
+    fi
+
+    log_msg "Starting process, share=$SHARE_DIR, port=$WEB_PORT ..."
+    # -receive-dir 将接收目录注册为 "inbox" 共享，并作为默认接收保存路径；
+    # 用户可在网页设置面板（接收目录）里实时修改，改后立即生效。
+    CMD="exec ${BIN} -listen :${WEB_PORT} -data-dir \"${DATA_DIR}\" -receive-dir \"${SHARE_DIR}\" -alias \"fnOS-NAS\""
     bash -c "${CMD}" >> ${LOG_FILE} 2>&1 &
     printf "%s" "$!" > ${PID_FILE}
     return 0
