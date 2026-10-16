@@ -1,0 +1,251 @@
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("fonts/Poppins/Poppins-Regular.ttf");
+}
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("fonts/Poppins/Poppins-SemiBold.ttf");
+}
+
+/* Palette adopted from localsend.org */
+:root {
+  --bg: #f4fbf8;
+  --fg: #05201c;
+  --muted: #3f4947;
+  --card: #eff5f2;
+  --line: rgba(63, 73, 71, 0.16);
+  --accent: #006a60;
+  --on-accent: #ffffff;
+  --error: #b3261e;
+  --ok: #2e7d32;
+}
+
+html.dark {
+  --bg: #0e1513;
+  --fg: #ffffff;
+  --muted: #a0b0ad;
+  --card: #131e1c;
+  --line: rgba(130, 213, 200, 0.1);
+  --accent: #82d5c8;
+  --on-accent: #05201c;
+  --error: #ef5350;
+  --ok: #66bb6a;
+}
+
+* { box-sizing: border-box; }
+
+/* author display rules must never beat the hidden attribute */
+[hidden] { display: none !important; }
+
+body {
+  margin: 0;
+  font: 14px/1.45 "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.8rem 1.2rem;
+  background: var(--card);
+  border-bottom: 1px solid var(--line);
+}
+
+h1 { font-size: 1.1rem; margin: 0; font-weight: 600; }
+
+.brand { display: flex; align-items: center; gap: 0.5rem; }
+.brand img { border-radius: 6px; display: block; }
+
+.header-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.icon-btn {
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  color: var(--fg);
+  padding: 0.2rem 0.5rem;
+  line-height: 0;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+.icon-btn:hover { border-color: var(--accent); color: var(--accent); }
+.icon-btn svg { width: 16px; height: 16px; display: block; }
+.icon-btn.remove { padding: 0.1rem 0.35rem; }
+.card-head .icon-btn.remove { margin-left: auto; }
+
+nav button {
+  border: 0;
+  background: none;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  color: var(--muted);
+  border-bottom: 2px solid transparent;
+  font: inherit;
+}
+nav button.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+main { padding: 1rem 1.2rem 4rem; max-width: 60rem; margin: 0 auto; }
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.8rem;
+  flex-wrap: wrap;
+}
+
+select, input[type="text"] {
+  padding: 0.35rem 0.5rem;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--card);
+  font: inherit;
+}
+input[type="text"] { min-width: 16rem; }
+
+button {
+  padding: 0.35rem 0.9rem;
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  background: var(--accent);
+  color: var(--on-accent);
+  cursor: pointer;
+  font: inherit;
+}
+button:disabled { opacity: 0.45; cursor: default; }
+button.secondary { background: none; color: var(--accent); }
+
+table { width: 100%; border-collapse: collapse; background: var(--card); border: 1px solid var(--line); }
+th, td { text-align: left; padding: 0.35rem 0.6rem; border-bottom: 1px solid var(--line); }
+th.num, td.num { text-align: right; font-variant-numeric: tabular-nums; }
+td.check, th.check { width: 2rem; }
+td.name { overflow-wrap: anywhere; }
+tr.dirrow td.name { font-weight: 500; }
+
+#breadcrumb .crumb { color: var(--accent); cursor: pointer; text-decoration: none; }
+#breadcrumb .sep { color: var(--muted); }
+
+#basketBar {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  padding: 0.7rem 1.2rem;
+  background: var(--card);
+  border-top: 1px solid var(--line);
+}
+#basketBar .spacer { flex: 1; }
+
+ul.cards { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.7rem; }
+li.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0.7rem 0.9rem;
+}
+li.empty { color: var(--muted); }
+.card-head { display: flex; align-items: center; gap: 0.6rem; }
+.card-head .icon { font-size: 1.2rem; }
+.actions { margin-top: 0.5rem; display: flex; gap: 0.5rem; }
+.muted { color: var(--muted); }
+.small { font-size: 0.85rem; }
+.badge {
+  font-size: 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0 0.4rem;
+  color: var(--muted);
+}
+
+.bar {
+  height: 6px;
+  background: var(--line);
+  border-radius: 3px;
+  margin: 0.5rem 0 0.3rem;
+  overflow: hidden;
+}
+.bar .fill { height: 100%; background: var(--accent); transition: width 0.15s; }
+
+.file-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.15rem 0;
+  border-top: 1px dashed var(--line);
+}
+.file-row .name { overflow-wrap: anywhere; }
+
+.state { font-size: 0.8rem; color: var(--muted); }
+.state-done { color: var(--ok); }
+.state-failed { color: var(--error); }
+.state-sending, .state-awaiting-accept { color: var(--accent); }
+.error { color: var(--error); }
+
+#toast {
+  position: fixed;
+  bottom: 4.2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  max-width: 90vw;
+}
+
+/* settings popover */
+.popover {
+  position: fixed;
+  top: 3.2rem;
+  right: 1rem;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.9rem 1rem;
+  display: grid;
+  gap: 0.7rem;
+  z-index: 30;
+  min-width: 15rem;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18);
+}
+.popover label { display: grid; gap: 0.25rem; font-size: 0.85rem; }
+.popover input, .popover select { font: inherit; padding: 0.3rem 0.45rem; border: 1px solid var(--line); border-radius: 4px; background: var(--bg); color: var(--fg); }
+
+/* receive modal */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 40;
+}
+.modal-card {
+  background: var(--card);
+  color: var(--fg);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 1.1rem 1.3rem;
+  width: min(30rem, 92vw);
+  display: grid;
+  gap: 0.8rem;
+}
+.modal-card h2 { margin: 0; font-size: 1.05rem; }
+.modal-files { max-height: 40vh; overflow: auto; display: grid; gap: 0.2rem; }
+.modal-files .row { display: flex; justify-content: space-between; gap: 1rem; }
+.modal-card .actions { display: flex; justify-content: flex-end; gap: 0.6rem; }

@@ -1,0 +1,7 @@
+Copyright (c) 2026 Kinyo
+
+本仓库的飞牛 fnOS 打包工程源码（manifest、cmd 生命周期脚本、config 资源/权限声明、构建脚本、图标）遵循 MIT License 发布。
+
+其中所打包/引用的 LocalSend 运行组件（alexindigo/localsend-nas 静态二进制与镜像）遵循其上游许可证 GNU LGPL-3.0，
+版权归其原作者 alexindigo 及 LocalSend 项目（© Tien Do Nam, Apache-2.0）所有。
+使用本应用即表示同意遵守上述上游许可证条款。
